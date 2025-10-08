@@ -1,0 +1,128 @@
+Part A: Sorting Employee Objects Using Lambda Expressions
+
+import java.util.*;
+
+class Employee {
+    int id;
+    String name;
+    double salary;
+
+    Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public String toString() {
+        return id + " " + name + " " + salary;
+    }
+}
+
+public class PartA {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+            new Employee(101, "Ravi", 50000),
+            new Employee(102, "Anjali", 70000),
+            new Employee(103, "Vikram", 45000),
+            new Employee(104, "Sneha", 60000)
+        );
+
+        employees.sort((e1, e2) -> Double.compare(e1.salary, e2.salary));
+        System.out.println("Sorted by Salary:");
+        employees.forEach(System.out::println);
+
+        employees.sort((e1, e2) -> e1.name.compareTo(e2.name));
+        System.out.println("\nSorted by Name:");
+        employees.forEach(System.out::println);
+    }
+}
+
+Part B: Filtering and Sorting Students Using Streams
+
+import java.util.*;
+import java.util.stream.*;
+
+class Student {
+    int id;
+    String name;
+    double marks;
+
+    Student(int id, String name, double marks) {
+        this.id = id;
+        this.name = name;
+        this.marks = marks;
+    }
+
+    public String toString() {
+        return id + " " + name + " " + marks;
+    }
+}
+
+public class PartB {
+    public static void main(String[] args) {
+        List<Student> students = Arrays.asList(
+            new Student(1, "Ravi", 85.0),
+            new Student(2, "Anjali", 92.5),
+            new Student(3, "Vikram", 67.0),
+            new Student(4, "Sneha", 78.5),
+            new Student(5, "Karan", 90.0)
+        );
+
+        List<Student> filtered = students.stream()
+            .filter(s -> s.marks > 80)
+            .sorted(Comparator.comparingDouble(s -> s.marks))
+            .collect(Collectors.toList());
+
+        filtered.forEach(System.out::println);
+    }
+}
+
+Part C: Stream Operations on Product Dataset
+
+import java.util.*;
+import java.util.stream.*;
+
+class Product {
+    int id;
+    String name;
+    double price;
+
+    Product(int id, String name, double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    public String toString() {
+        return id + " " + name + " " + price;
+    }
+}
+
+public class PartC {
+    public static void main(String[] args) {
+        List<Product> products = Arrays.asList(
+            new Product(1, "Laptop", 55000),
+            new Product(2, "Phone", 30000),
+            new Product(3, "Tablet", 20000),
+            new Product(4, "Monitor", 15000),
+            new Product(5, "Headphones", 5000)
+        );
+
+        List<Product> expensive = products.stream()
+            .filter(p -> p.price > 20000)
+            .collect(Collectors.toList());
+        System.out.println("Expensive Products:");
+        expensive.forEach(System.out::println);
+
+        List<String> names = products.stream()
+            .map(p -> p.name.toUpperCase())
+            .collect(Collectors.toList());
+        System.out.println("\nProduct Names in Uppercase:");
+        names.forEach(System.out::println);
+
+        double totalPrice = products.stream()
+            .mapToDouble(p -> p.price)
+            .sum();
+        System.out.println("\nTotal Price: " + totalPrice);
+    }
+}
